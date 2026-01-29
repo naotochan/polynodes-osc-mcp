@@ -17,7 +17,7 @@ This server enables AI assistants like Claude to control PolyNodes' spatial soni
 Add to your project's MCP servers:
 
 ```bash
-claude mcp add polynodes-mcp -- uv run --directory /path/to/polynodes-osc-mcp python server.py
+claude mcp add polynodes-osc-mcp -- uv run --directory /path/to/polynodes-osc-mcp python server.py
 ```
 
 Or manually add to your Claude Code settings:
@@ -25,7 +25,7 @@ Or manually add to your Claude Code settings:
 ```json
 {
   "mcpServers": {
-    "polynodes-mcp": {
+    "polynodes-osc-mcp": {
       "type": "stdio",
       "command": "uv",
       "args": ["run", "--directory", "/path/to/polynodes-osc-mcp", "python", "server.py"]
@@ -41,7 +41,7 @@ Add to `claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "polynodes-mcp": {
+    "polynodes-osc-mcp": {
       "command": "uv",
       "args": ["run", "--directory", "/path/to/polynodes-osc-mcp", "python", "server.py"]
     }
