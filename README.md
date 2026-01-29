@@ -1,5 +1,7 @@
 # polynodes-osc-mcp
 
+[日本語](README.ja.md)
+
 MCP (Model Context Protocol) server for controlling [PolyNodes](https://soniclab.net/polynodes/) by sonicLAB via OSC.
 
 This server enables AI assistants like Claude to control PolyNodes' spatial sonic synthesis parameters through natural language.
