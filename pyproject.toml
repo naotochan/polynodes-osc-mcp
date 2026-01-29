@@ -1,5 +1,5 @@
 [project]
-name = "polynodes-mcp"
+name = "polynodes-osc-mcp"
 version = "0.1.0"
 description = "MCP Server for controlling PolyNodes via OSC"
 requires-python = ">=3.10"
