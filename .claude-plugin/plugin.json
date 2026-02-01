@@ -1,7 +1,12 @@
 {
   "name": "polynodes-osc-mcp",
   "description": "PolyNodes (sonicLAB) OSC control for Claude Code - spatial sonic synthesis via 45+ OSC parameters",
+  "version": "1.0.0",
   "author": {
     "name": "naotochan"
-  }
+  },
+  "homepage": "https://github.com/naotochan/polynodes-osc-mcp",
+  "repository": "https://github.com/naotochan/polynodes-osc-mcp",
+  "license": "MIT",
+  "keywords": ["osc", "music", "sound", "spatial-audio", "polynodes", "soniclab", "mcp"]
 }
