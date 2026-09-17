@@ -1,18 +1,30 @@
 ---
 name: polynodes-guide
 description: Guide for controlling PolyNodes (sonicLAB) spatial sonic synthesizer via OSC. Covers the 3-layer architecture (Macro/Meso/Micro), DSP effects, and parameter workflows. Use when operating PolyNodes through MCP tools.
-version: 0.1.0
+version: 0.2.0
 ---
 
 # PolyNodes Guide
 
-Use this skill when controlling PolyNodes via the MCP OSC tools.
+Use this skill when controlling PolyNodes via the MCP OSC server (`polynodes_set`, `polynodes_raw`, `polynodes://catalog`).
 
 ---
 
 ## What is PolyNodes?
 
-PolyNodes is a **spatial sonic synthesis** application by [sonicLAB](https://soniclab.net/polynodes/). It decomposes input audio into three temporal layers and spatializes them in 3D space. Control is done via OSC messages on `127.0.0.1:4799`.
+PolyNodes is a **spatial sonic synthesis** application by [sonicLAB](https://soniclab.net/polynodes/). It decomposes input audio into three temporal layers and spatializes them in 3D space. Control is done via OSC messages (default `127.0.0.1:4799`).
+
+---
+
+## MCP API
+
+| Name | Use |
+|------|-----|
+| `polynodes_set` | Batch-set params: `[{param, value, level?}, ...]` |
+| `polynodes_raw` | Send any OSC address/value |
+| `polynodes://catalog` | Read param names, addresses, ranges, per-layer rules |
+
+**Workflow:** Read `polynodes://catalog` when unsure of param names or ranges. Batch related changes into one `polynodes_set` call. Per-layer params need `level`: `macro`, `meso`, or `micro`. Switches accept `0`/`1` or `bool`.
 
 ---
 
@@ -31,7 +43,7 @@ Each layer has independent control over:
 - **Envelope time** (0.01-0.5)
 - **Playback rate** and its stochastic modulation range
 - **Bandpass filter** (80-8000 Hz) with modulation range
-- **Comb filter** with layer-specific delay ranges
+- **Comb filter** with layer-specific delay ranges (macro 10-3000, meso 10-1000, micro 10-300)
 
 The **Dry/Wet** control (0.0-1.0) blends original input with synthesized output.
 
@@ -67,10 +79,8 @@ Modulates parameters based on spatial isomorphic mapping. Targets: frequency, am
 ## Typical Workflows
 
 ### Basic Setup
-1. Select a preset slot (1-10)
-2. Start playback
-3. Adjust Dry/Wet balance
-4. Set layer gains
+1. `polynodes_set`: preset slot, play, dry/wet, layer gains in one batch
+2. Read catalog if you need exact param names
 
 ### Creating Texture
 1. Set playback rates per layer (slower = drone, faster = granular)
@@ -94,11 +104,10 @@ Modulates parameters based on spatial isomorphic mapping. Targets: frequency, am
 
 ## Parameter Tips
 
-- **Modulation Range (MR)** parameters (0.0-0.75) add stochastic variation around the base value. Higher = more random.
+- **Modulation Range** params (`*_mod`, 0.0-0.75) add stochastic variation around the base value. Higher = more random.
 - **Playback rate** at 1.0 = original speed. Below 1.0 = slower/pitched down. Above 1.0 = faster/pitched up.
 - **Envelope time** controls attack/decay of each grain. Shorter = sharper transients. Longer = smoother pads.
-- Use `polynodes_list_osc_addresses` to see all available OSC addresses and their ranges.
-- Use `polynodes_send_raw_osc` for any address not covered by dedicated tools.
+- Use `polynodes_raw` only for addresses not in the catalog.
 
 ---
 
@@ -106,28 +115,4 @@ Modulates parameters based on spatial isomorphic mapping. Targets: frequency, am
 
 | Topic | File |
 |-------|------|
-| All OSC addresses and ranges | `reference/osc-addresses.md` |
-
----
-
-## MCP Tools Available
-
-45+ tools organized by category:
-
-- **Transport**: play/stop, preset slot, BPM
-- **Gain**: per-layer gain, dry/wet, solo
-- **Envelope**: per-layer envelope time
-- **Playback Rate**: per-layer rate and modulation range
-- **Granulator**: switch, duration, duration modulation range
-- **Bandpass Filter**: per-layer switch, frequency, modulation range
-- **Comb Filter**: per-layer switch, delay, modulation range
-- **Black Hole / White Hole**: switch, per-layer force
-- **Ring Modulator**: switch, per-layer frequency
-- **Bitcrusher**: switch, bit level, range
-- **Resonator**: switch, frequency distribution, balance
-- **Cuboid FX**: per-cuboid switch, per-layer return level
-- **IsoMorph**: switch, mod targets, depth, bandpass center
-- **Navigation**: random trigger, rearrange, poly gates
-- **Tuning**: PB rate and resonator tuning switches
-- **Camera**: zoom, rotate
-- **Utility**: list all OSC addresses, send raw OSC
+| All OSC addresses and ranges | `reference/osc-addresses.md` (generated from `osc_registry.py`) |
