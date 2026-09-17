@@ -4,52 +4,26 @@
 
 sonicLAB の [PolyNodes](https://soniclab.net/polynodes/) を OSC 経由で制御するための MCP (Model Context Protocol) サーバーです。
 
-Claude などの AI アシスタントから、自然言語で PolyNodes の空間音響合成パラメータを操作できます。
+Cursor から、自然言語で PolyNodes の空間音響合成パラメータを操作できます。
+
+**手元での入れ方・パスの話は [LOCAL.md](LOCAL.md)（Cursor 前提の指示書）です。** クラウド側にはクローン先パスが見えないので、MCP 登録はローカルで行ってください。
 
 ## 必要環境
 
 - Python 3.10+
 - [uv](https://docs.astral.sh/uv/)
 - PolyNodes が OSC を受信している状態（デフォルト `127.0.0.1:4799`）
+- Cursor（MCP ホスト。`server.py` は手起動しない）
 
 ## セットアップ
 
-### Claude Code
+手順の本体は [LOCAL.md](LOCAL.md)。要点だけ:
 
-プロジェクトの MCP サーバーに追加:
-
-```bash
-claude mcp add polynodes-osc-mcp -- uv run --directory /path/to/polynodes-osc-mcp python server.py
-```
-
-または Claude Code の設定に手動で追加:
-
-```json
-{
-  "mcpServers": {
-    "polynodes-osc-mcp": {
-      "type": "stdio",
-      "command": "uv",
-      "args": ["run", "--directory", "/path/to/polynodes-osc-mcp", "python", "server.py"]
-    }
-  }
-}
-```
-
-### Claude Desktop
-
-`claude_desktop_config.json` に追加:
-
-```json
-{
-  "mcpServers": {
-    "polynodes-osc-mcp": {
-      "command": "uv",
-      "args": ["run", "--directory", "/path/to/polynodes-osc-mcp", "python", "server.py"]
-    }
-  }
-}
-```
+1. このリポジトリを手元にクローンする（`pwd` がインストールパス）
+2. PolyNodes を起動する
+3. クローン先を `--directory` にしたエントリを `~/.cursor/mcp.json` に追加する（JSON の形は [LOCAL.md](LOCAL.md)）
+4. Cursor の Settings → Tools & MCP で緑になるのを確認する
+5. Agent チャットで「再生して BPM を 120 にして」などと頼む
 
 ### OSC 接続
 

@@ -4,52 +4,26 @@
 
 MCP (Model Context Protocol) server for controlling [PolyNodes](https://soniclab.net/polynodes/) by sonicLAB via OSC.
 
-This server enables AI assistants like Claude to control PolyNodes' spatial sonic synthesis parameters through natural language.
+This server lets [Cursor](https://cursor.com) control PolyNodes' spatial sonic synthesis parameters through natural language.
+
+**Local install and path notes live in [LOCAL.md](LOCAL.md)** (Cursor-first). Cloud agents cannot see your clone path; register the MCP on the machine that runs PolyNodes.
 
 ## Requirements
 
 - Python 3.10+
 - [uv](https://docs.astral.sh/uv/)
 - PolyNodes running and receiving OSC (default `127.0.0.1:4799`)
+- Cursor as the MCP host (do not start `server.py` by hand)
 
 ## Setup
 
-### Claude Code
+Follow [LOCAL.md](LOCAL.md). Short version:
 
-Add to your project's MCP servers:
-
-```bash
-claude mcp add polynodes-osc-mcp -- uv run --directory /path/to/polynodes-osc-mcp python server.py
-```
-
-Or manually add to your Claude Code settings:
-
-```json
-{
-  "mcpServers": {
-    "polynodes-osc-mcp": {
-      "type": "stdio",
-      "command": "uv",
-      "args": ["run", "--directory", "/path/to/polynodes-osc-mcp", "python", "server.py"]
-    }
-  }
-}
-```
-
-### Claude Desktop
-
-Add to `claude_desktop_config.json`:
-
-```json
-{
-  "mcpServers": {
-    "polynodes-osc-mcp": {
-      "command": "uv",
-      "args": ["run", "--directory", "/path/to/polynodes-osc-mcp", "python", "server.py"]
-    }
-  }
-}
-```
+1. Clone this repo locally (`pwd` is the install path)
+2. Start PolyNodes
+3. クローン先を `--directory` にしたエントリを `~/.cursor/mcp.json` に追加する（JSON の形は [LOCAL.md](LOCAL.md)）
+4. Enable it in Cursor Settings → Tools & MCP until it shows green
+5. In Agent chat: "Play and set BPM to 120"
 
 ### OSC connection
 
