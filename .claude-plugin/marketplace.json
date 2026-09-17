@@ -10,8 +10,8 @@
     {
       "name": "polynodes-osc-mcp",
       "source": "./",
-      "description": "PolyNodes (sonicLAB) OSC control for Claude Code - spatial sonic synthesis via 45+ OSC parameters",
-      "version": "1.0.0",
+      "description": "PolyNodes (sonicLAB) OSC control for Claude Code - spatial sonic synthesis via registry-driven MCP API",
+      "version": "0.2.0",
       "author": {
         "name": "naotochan"
       },
